@@ -1,7 +1,5 @@
-
-import urllib3
 import simplejson
-
+import urllib3
 
 http = urllib3.PoolManager()
 
@@ -10,7 +8,7 @@ http_query = 'http://localhost:8983/solr/cisi_db/select?indent=on&q=content:' + 
 
 response = http.request('GET', http_query)
 
-query_document = {}     # will be a dictionary that keeps which documents (id) is relevant
+query_document = {}  # will be a dictionary that keeps which documents (id) is relevant
 
 json = simplejson.loads(response.data.decode('utf-8'))
 print(json['response']['numFound'], "documents found.")
