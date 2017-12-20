@@ -1,0 +1,2 @@
+solr create -c "cisi_db"
+java -Dc="cisi_db" -jar post.jar *.xml
