@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 
 import simplejson
 import urllib3
+import requests
 
 tree = ET.parse('./cisi_xml/Queries.xml')
 root = tree.getroot()
@@ -21,11 +22,19 @@ for doc in root:
     query = re.sub(":", "", query)
     query = re.sub("[\\s]", "+", query)
 
-    http_query = 'http://localhost:8983/solr/cisi_db/select?indent=on&q=content:' + query + '&wt=json'
-    response = http.request('GET', http_query)
 
-    json = simplejson.loads(response.data.decode('utf-8'))
-    query_doc[query_id] = json['response']['numFound']
+    http_query = 'http://localhost:8983/solr/cisi_db/select?indent=on&q=content:' + query + ' &wt=json'
+
+    response = requests.get(http_query).json()
+
+    data_array = response['response']['docs']
+
+    data_id = []
+
+    for data in data_array:
+        data_id.append(data['id'])
+
+    query_doc[query_id] = data_id
 
 for query_id in query_doc:
     print(query_id, query_doc[query_id])

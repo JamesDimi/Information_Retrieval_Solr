@@ -40,6 +40,7 @@ def convert_to_xml(filepath):
 
                 author = ET.SubElement(document, 'field')
                 author.set('name', 'author')
+                author.set('multiValued', 'true')
                 author.text = "\n"
                 author.tail = '\n'
                 line = f.__next__()
@@ -68,13 +69,13 @@ def convert_to_xml(filepath):
 
             # add the text to the tags
             if tagindex == 1:
-                title.text += line
+                title.text += line[:-1] + ' '
             elif tagindex == 2:
-                author.text += line
+                author.text += line[:-1] + ' '
             elif tagindex == 3:
-                content.text += line
+                content.text += line[:-1] + ' '
             elif tagindex == 4 and not (line.startswith(".I")):
-                query.text += line
+                query.text += line[:-1] + ' '
 
     # Include the root element to the tree and write the tree
     # to the file.
